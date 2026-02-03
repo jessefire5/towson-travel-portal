@@ -18,13 +18,13 @@
 
     <main class="max-w-4xl mx-auto px-4 pb-12">
         
-        <div id="loginSection" class="bg-white rounded-xl shadow-lg p-8 max-w-md mx-auto">
-            <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+        <div id="loginSection" class="bg-white rounded-xl shadow-lg p-8 max-w-md mx-auto border-t-4 border-yellow-500">
+            <h2 class="text-2xl font-bold mb-6 text-center">Sign In</h2>
             <div class="space-y-4">
-                <input type="text" id="username" placeholder="Username (student/admin)" class="w-full p-2 border rounded focus:ring-2 focus:ring-yellow-500 outline-none">
-                <input type="password" id="password" placeholder="Password (password)" class="w-full p-2 border rounded focus:ring-2 focus:ring-yellow-500 outline-none">
-                <button onclick="login()" class="tu-gold w-full py-2 rounded font-bold hover:bg-yellow-500 transition-colors uppercase">Sign In</button>
-                <p id="loginError" class="text-red-600 text-sm hidden text-center italic mt-2">Invalid username or password.</p>
+                <input type="text" id="username" placeholder="Username" class="w-full p-2 border rounded focus:ring-2 focus:ring-yellow-500 outline-none">
+                <input type="password" id="password" placeholder="Password" class="w-full p-2 border rounded focus:ring-2 focus:ring-yellow-500 outline-none">
+                <button onclick="login()" class="tu-gold w-full py-2 rounded font-bold hover:bg-yellow-500 transition-colors uppercase">Login</button>
+                <p id="loginError" class="text-red-600 text-sm hidden text-center italic mt-2">Invalid credentials.</p>
             </div>
         </div>
 
@@ -32,11 +32,9 @@
             <div id="studentHome">
                 <div class="flex justify-between items-center mb-6 border-b pb-4">
                     <h2 class="text-2xl font-bold">My Dashboard</h2>
-                    <button onclick="startNewRequest()" class="tu-gold px-4 py-2 rounded font-bold hover:bg-yellow-500 text-sm tracking-wide">+ NEW REQUEST</button>
+                    <button onclick="startNewRequest()" class="tu-gold px-4 py-2 rounded font-bold hover:bg-yellow-500 text-sm">+ NEW REQUEST</button>
                 </div>
-
                 <div id="statusAlerts"></div>
-
                 <div class="overflow-x-auto mb-8">
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-gray-50">
@@ -49,66 +47,63 @@
                         <tbody id="studentStatusTable"></tbody>
                     </table>
                 </div>
-
-                <h3 class="font-bold text-sm text-gray-600 mb-2 uppercase tracking-tight">Notification History</h3>
+                <h3 class="font-bold text-sm text-gray-600 mb-2 uppercase">Notification History</h3>
                 <div id="notificationLog" class="bg-gray-50 rounded p-4 text-xs space-y-2 border max-h-48 overflow-y-auto"></div>
             </div>
 
-            <div id="requestForm" class="hidden">
+            <div id="requestFormSection" class="hidden">
                 <div class="flex justify-between border-b mb-8 text-[10px] md:text-xs font-bold uppercase">
                     <div id="stepTab1" class="pb-2 flex-1 text-center step-active">Identity</div>
-                    <div id="stepTab2" class="pb-2 flex-1 text-center">Trip Info</div>
+                    <div id="stepTab2" class="pb-2 flex-1 text-center">Trip</div>
                     <div id="stepTab3" class="pb-2 flex-1 text-center">Docs</div>
                     <div id="stepTab4" class="pb-2 flex-1 text-center">Review</div>
                 </div>
-
-                <div id="step1" class="step-content space-y-4">
-                    <input type="text" id="studentName" placeholder="Full Student Name *" class="w-full p-2 border rounded" required>
-                    <input type="email" id="studentEmail" placeholder="Towson Email Address *" class="w-full p-2 border rounded" required>
-                </div>
-
-                <div id="step2" class="step-content hidden space-y-4">
-                    <input type="text" id="tripName" placeholder="Trip Name (e.g., Conference) *" class="w-full p-2 border rounded" required>
-                    <input type="text" id="destination" placeholder="Destination (City, State) *" class="w-full p-2 border rounded" required>
-                    <input type="number" id="cost" placeholder="Total Estimated Cost ($) *" class="w-full p-2 border rounded w-full" required>
-                </div>
-
-                <div id="step3" class="step-content hidden space-y-4">
-                    <label class="block text-sm font-bold mb-1">Upload Itinerary / Proof of Event (PDF) *</label>
-                    <input type="file" id="docUpload" class="block w-full text-sm text-gray-500 border rounded p-2">
-                    <p class="text-[10px] text-gray-400 italic mt-1" id="currentFileName"></p>
-                </div>
-
-                <div id="step4" class="step-content hidden space-y-4">
-                    <div class="bg-gray-50 p-4 rounded text-sm italic border">
-                        Please verify that all dates and estimated costs match your documentation. Approved requests can be exported for department records.
+                <form id="requestForm" onsubmit="event.preventDefault();" class="space-y-6">
+                    <div id="step1" class="step-content space-y-4">
+                        <input type="text" id="studentName" placeholder="Full Name *" class="w-full p-2 border rounded" required>
+                        <input type="email" id="studentEmail" placeholder="Towson Email *" class="w-full p-2 border rounded" required>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <input type="checkbox" id="confirm" required>
-                        <label for="confirm" class="text-sm font-bold">I certify all information is accurate.</label>
+                    <div id="step2" class="step-content hidden space-y-4">
+                        <input type="text" id="tripName" placeholder="Trip Name *" class="w-full p-2 border rounded" required>
+                        <input type="text" id="destination" placeholder="Destination *" class="w-full p-2 border rounded" required>
+                        <input type="number" id="cost" placeholder="Estimated Cost ($) *" class="w-full p-2 border rounded" required>
                     </div>
-                </div>
-
+                    <div id="step3" class="step-content hidden space-y-4">
+                        <label class="block text-sm font-bold">Attach Itinerary (PDF) *</label>
+                        <input type="file" id="docUpload" class="block w-full text-sm text-gray-500 border rounded p-2">
+                        <p id="currentFileName" class="text-xs italic text-gray-500"></p>
+                    </div>
+                    <div id="step4" class="step-content hidden space-y-4">
+                        <p class="text-sm border-l-4 border-yellow-500 pl-3 italic text-gray-600">Review your final details.</p>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="confirm" required>
+                            <label for="confirm" class="text-xs font-bold">I certify these details are correct.</label>
+                        </div>
+                    </div>
+                </form>
                 <div class="flex justify-between mt-8 pt-4 border-t">
-                    <button id="backBtn" onclick="changeStep(-1)" class="px-6 py-2 bg-gray-200 rounded hidden font-bold">Back</button>
-                    <button id="cancelBtn" onclick="showStudentHome()" class="px-6 py-2 text-gray-500 hover:underline">Cancel</button>
-                    <button id="nextBtn" onclick="changeStep(1)" class="px-6 py-2 tu-gold rounded font-bold">Next</button>
-                    <button id="submitBtn" onclick="submitRequest()" class="px-6 py-2 tu-gold rounded font-bold hidden">Submit Request</button>
+                    <div class="flex gap-2">
+                        <button id="backBtn" onclick="changeStep(-1)" class="px-4 py-2 bg-gray-200 rounded hidden font-bold text-sm">Back</button>
+                        <button onclick="saveDraft()" class="px-4 py-2 bg-blue-100 text-blue-700 rounded font-bold text-sm hover:bg-blue-200">Save Draft</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="showStudentHome()" class="px-4 py-2 text-gray-500 hover:underline text-sm">Cancel</button>
+                        <button id="nextBtn" onclick="changeStep(1)" class="px-6 py-2 tu-gold rounded font-bold text-sm">Next</button>
+                        <button id="submitBtn" onclick="submitRequest()" class="px-6 py-2 tu-gold rounded font-bold hidden text-sm">Submit Request</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="adminPortal" class="hidden bg-white rounded-xl shadow-lg p-8">
-            <div class="flex justify-between items-center mb-6 border-b pb-4">
-                <h2 class="text-2xl font-bold uppercase">Admin Dashboard</h2>
-                <input type="text" id="adminSearch" onkeyup="renderAdminTable()" placeholder="Search..." class="p-2 border rounded w-48 md:w-64 outline-none focus:ring-2 focus:ring-yellow-500">
-            </div>
+            <h2 class="text-2xl font-bold uppercase mb-6 border-b pb-2">Admin Review Dashboard</h2>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="p-3 text-xs font-bold uppercase">Student</th>
-                            <th class="p-3 text-xs font-bold uppercase">Trip</th>
+                            <th class="p-3 text-xs font-bold uppercase">Student & Contact</th>
+                            <th class="p-3 text-xs font-bold uppercase">Trip Details</th>
+                            <th class="p-3 text-xs font-bold uppercase">Documents</th>
                             <th class="p-3 text-xs font-bold uppercase">Status</th>
                             <th class="p-3 text-xs font-bold uppercase text-right">Action</th>
                         </tr>
